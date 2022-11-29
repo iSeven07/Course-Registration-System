@@ -8,13 +8,13 @@
     <div class="navbar-nav">
         <ul class="navbar-nav ms-auto pe-1 text-end">
           <li class="nav-item">
-            <a href="#" class="nav-link">Home</a>
+            <a href="/" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Courses</a>
+            <a href="/courses" class="nav-link">Courses</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Add Course</a>
+            <a href="/courses/add" class="nav-link">Add Course</a>
           </li>
         </ul>
     </div>
