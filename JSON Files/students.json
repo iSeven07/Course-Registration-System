@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "6386c90c7a420ec4f384d597"
+  },
+  "firstName": "Joseph",
+  "lastName": "Auz",
+  "courses": [
+    "VISC-104",
+    "SDEV-255"
+  ]
+},{
+  "_id": {
+    "$oid": "6386ca207a420ec4f384d59a"
+  },
+  "firstName": "Aaron",
+  "lastName": "Corns",
+  "courses": [
+    "VISC-104",
+    "SDEV-255",
+    "SDEV-140"
+  ]
+}]

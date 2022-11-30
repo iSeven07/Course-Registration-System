@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "6386c4ae29a8f3ccac44a29b"
+  },
+  "name": "SDEV-120",
+  "title": "Computing Logic"
+},{
+  "_id": {
+    "$oid": "6386c4ca29a8f3ccac44d17a"
+  },
+  "name": "SDEV-140",
+  "title": "Introduction to Programming"
+},{
+  "_id": {
+    "$oid": "6386c4df29a8f3ccac44f17b"
+  },
+  "name": "SDEV-255",
+  "title": "Web Application Development"
+},{
+  "_id": {
+    "$oid": "6386c72e29a8f3ccac48a936"
+  },
+  "name": "VISC-104",
+  "title": "UX/UI Design"
+}]
