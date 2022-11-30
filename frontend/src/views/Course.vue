@@ -14,15 +14,18 @@
 <script>
 
 export default {
-  data() {
+
+    data() {
     return {
-      courses: [
+        courses: [
         { name: 'SDEV-120', title: 'Computing Logic' },
         { name: 'SDEV-140', title: 'Introduction to Programming' },
         { name: 'SDEV-255', title: 'Web Application Development' }
       ],
     };
+    
   },
+
   methods: {
 
   },
