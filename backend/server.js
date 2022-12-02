@@ -1,114 +1,97 @@
 const express = require('express');
 const cors = require('cors');
-const MongoClient = require('mongodb').MongoClient
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+// Model Imports
 const Course = require('./models/course');
 
 const port = 3000;
-const uri = "mongodb+srv://admin-sdev255:admin-password@sdev255-fp-db.9zv6wry.mongodb.net/faux-school?retryWrites=true&w=majority";
-// const uri = "mongodb://admin-sdev255:admin-password@sdev255-fp-db.9zv6wry.mongodb.net/faux-school?retryWrites=true&w=majority";
-const dbName = 'faux-school'
+const uri =
+	'mongodb+srv://admin-sdev255:admin-password@sdev255-fp-db.9zv6wry.mongodb.net/faux-school?retryWrites=true&w=majority';
 
 const app = express();
-app.use(cors());
-
-// connect to mongoDB
-
-try {
-  // Connect to the MongoDB cluster
-   mongoose.connect(
-    uri,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => console.log(" Mongoose is connected")
-  );
-
-} catch (e) {
-  console.log("could not connect");
-}
 
 // middleware
-// app.use(express.static('public'));
-// app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
 app.use((req, res, next) => {
-  res.locals.path = req.path;
-  next();
+	res.locals.path = req.path;
+	next();
 });
+
+// Connect to the MongoDB cluster
+try {
+	mongoose.connect(
+		uri,
+		{ useNewUrlParser: true, useUnifiedTopology: true },
+		() => console.log(' Mongoose is connected')
+	);
+} catch (e) {
+	console.log('could not connect');
+}
 
 // routes
+
+// Get all Courses
 app.get('/api/courses', (req, res) => {
-
-  // OLD - mongodb pkg
-  // const client = await MongoClient.connect(uri, {
-	// 	useNewUrlParser: true,
-	// 	useUnifiedTopology: true,
-	// });
-  // const db = client.db(dbName);
-  // const courses = await db.collection('courses').find({}).toArray()
-
-	// res.status(200).json(courses);
-  // client.close()
-
-  // NEW - mongoose pkg
-  Course.find()
-  .then(result => {
-    res.send(result);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+	Course.find()
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
 
-// CREATES STATIC COURSE
-
-// app.get('/api/course/create', function(req, res) {
-//   const course = new Course({
-//      name: "ITSP-135",
-//      title: "Hardware & Software Support"
-//   });
-
-//   course.save(function(err, cour) {
-//     console.log(`Course ${cour.name} with id ${cour._id} was added to the DB.`)
-//   })
-
-// });
-
-// DELETES STATIC COURSE
-//    must pull course id from mongodb website or mongodb compass
-
-app.get('/api/course/delete', function(req, res) {
-
-  Course.findByIdAndDelete('6386ee9230f3f47c41b0a1a3', function (err) {
-    if(err) console.log(err);
-    console.log("Successful deletion");
-  });
+// Get a single Course
+app.post('/api/course', (req, res) => {
+	console.log('req.body ' + req.body.data);
+	console.log('courseName ' + req.body.courseName);
+	Course.findById(req.body.courseID)
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
 
-// app.get('/api/course/create', async (req, res) => {
-//   const cour = new Course({
-//     name: "ITSP-135",
-//     title: "Hardware & Software Support"
-//  });
+// Edit Course in DB
 
-// cour.save(function(err, cour) {
-//   re
-//  console.log(`Course ${cour.name} with id ${cour._id} was added to the DB.`)
-// })
+app.patch('/api/course/edit', (req, res) => {
+	Course.findById(req.body.courseID)
+		.then((resp) => {
+			resp.name = req.body.courseName
+			resp.title = req.body.courseTitle
+			resp.save()
+		})
+})
 
 
-// });
 
-// app.get('/api/students', async (req, res) => {
+// Add Course to DB
+app.post('/api/course/add', function (req, res, next) {
+	 course = new Course({
+		name: req.body.name,
+		title: req.body.title,
+	});
+  console.log(course);
+	course.save(function (err, course) {
+		if (err) {
+			return next(err);
+		}
+		res.status(201).json(course);
+	});
+});
 
-//   const client = await MongoClient.connect(uri, {
-// 		useNewUrlParser: true,
-// 		useUnifiedTopology: true,
-// 	});
-//   const db = client.db(dbName);
-//   const students = await db.collection('students').find({}).toArray()
+// Deletes Course from DB
 
-// 	res.status(200).json(students);
-//   client.close()
-
-// });
+app.post('/api/course/delete', function (req, res) {
+	Course.findByIdAndDelete(req.body.courseID, function (err) {
+		if (err) console.log(err);
+		console.log('Successful deletion');
+	});
+});
 
 app.listen(port, () => console.log('app running'));

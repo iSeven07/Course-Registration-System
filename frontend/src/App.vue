@@ -1,7 +1,9 @@
 <template>
-	<Header />
-	<router-view />
-	<Footer />
+	<div>
+		<Header />
+		<router-view/>
+		<Footer />
+	</div>
 </template>
 
 <script>
@@ -14,7 +16,8 @@ export default {
 	components: {
 		Header,
 		Footer,
-	},
+	}
+
 };
 </script>
 

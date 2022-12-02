@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark pe-3">
-    <a class="navbar-brand ps-5" href="#">Faux School</a>
+    <a class="navbar-brand ps-5" href="/">Faux School</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -15,6 +15,9 @@
           </li>
           <li class="nav-item">
             <a href="/courses/add" class="nav-link">Add Course</a>
+          </li>
+          <li class="nav-item">
+            <a href="/viewcourse" class="nav-link">View Course</a>
           </li>
         </ul>
       </div>
