@@ -2,5 +2,5 @@
 SDEV255 Final Project Repository
 
 # Contributors
-Aaron Corns
-Joe Auz
+### Aaron Corns
+### Joe Auz
