@@ -27,8 +27,16 @@
 							<button class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
 						</td>
 					</tr>
+					<tr>
+						<td colspan="3"><router-link class="btn btn-primary" to="/courses/add">Add Course</router-link></td>
+					</tr>
 				</tbody>
 			</table>
+
+			<div>
+				
+			</div>
+
 		</div>
 	</div>
 

@@ -1,34 +1,20 @@
 <template>
-	<div class="d-flex justify-content-center p-5 text-center">
-		<div class="pt-5">
-			<div class="h3">Add Course</div>
-			<!-- <form id="addForm">
-				<div class="form-row mt-5">
-					<div class="col">
-						<label for="courseName">Course Name</label>
-						<input id="courseName" v-model="courseName" placeholder="" />
-					</div>
-					<div class="col">
-						<label for="courseTitle">Course Title</label>
-						<input id="courseTitle" v-model="courseTitle" placeholder="" />
-					</div>
-				</div>
-				<button type="button" id="add" class="btn btn-primary mt-5">
-					Add Course
-				</button>
-			</form> -->
-
+	<div class="pt-5">
+		<div class="h1 text-center">Add Course</div>
+		<div class="pt-2" style="margin-left: auto; margin-right: auto; width:60%">
 			<form>
-				<input type="text" ref="courseName" />
-				<input type="text" ref="courseTitle" />
-				<button @click.prevent="getFormValues()">Get values</button>
+				<div class="form-group">
+					<label for="nameInput">Course:</label>
+					<input type="text" id="nameInput" class="form-control" ref="courseName" aria-describedby="emailHelp" />
+					<small id="nameHelp" class="form-text text-muted">Example: ASTR-101</small>
+				</div>
+				<div class="form-group my-2">
+					<label for="titleInput">Title:</label>
+					<input id="titleInput" type="text" class="form-control" ref="courseTitle" />
+				</div>
+				<button class="btn btn-primary" @click.prevent="getFormValues()">Confirm</button>
 			</form>
-
-			<h2>Course Name: {{ courseName }}</h2>
-			<h2>Course Title: {{ courseTitle }}</h2>
-			<ul>
-				<li v-for="(error, i) in errors" :key="i">{{ error }}</li>
-			</ul>
+			<div id="alert" class="mt-5 alert" role="alert" :class="alertType"></div>
 
 		</div>
 	</div>
@@ -43,27 +29,44 @@ export default {
 			courseName: '',
 			courseTitle: '',
 			errors: [],
+			alertType: {
+				active: false,
+				"alert-danger": false,
+				"alert-success": false
+			},
 		};
 	},
 
 	computed: {},
 
 	methods: {
+
 		getFormValues() {
 			this.errors = [];
 			this.courseName = this.$refs.courseName.value;
 			this.courseTitle = this.$refs.courseTitle.value;
 
 			if (this.courseName && this.courseTitle) {
-				// this.postCourse();
-				this.$refs.courseName.value = '';
-				this.$refs.courseTitle.value = '';
-				this.postCourse()
-				console.log('posted course');
-			}
-			else {
-				if(!this.courseName) this.errors.push('No Course Name');
-				if(!this.courseTitle) this.errors.push('No Course Title');
+				this.postCourse();
+				this.alertType = {
+					active: true,
+					"alert-success": true,
+					"alert-danger": false
+				}
+				document.getElementById('alert').innerHTML = `<p style="margin: 0; padding: 0"><strong>Success</strong>: Course was updated successfully. Go back to <a  class="alert-link" href="/courses">Courses</a>.`
+			} else {
+				if (!this.courseName) this.errors.push('No Course Name');
+				if (!this.courseTitle) this.errors.push('No Course Title');
+				this.alertType = {
+					active: true,
+					"alert-danger": true,
+					"alert-success": false
+				}
+				let alertText = '';
+				for (let error of this.errors) {
+					alertText += `<p style="margin: 0; padding:0;"><strong>Error</strong>: ${error}</p>`
+				}
+				document.getElementById('alert').innerHTML = alertText;
 			}
 		},
 
