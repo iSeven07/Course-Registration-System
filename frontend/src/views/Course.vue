@@ -34,14 +34,11 @@
 			</table>
 
 			<div>
-				
+
 			</div>
 
 		</div>
 	</div>
-
-
-	
 </template>
 
 <script>
@@ -51,7 +48,6 @@ export default {
 	data() {
 		return {
 			courses: [],
-			// deleteKey: 0, // I don't think we need this anymore
 		};
 	},
 
@@ -66,7 +62,6 @@ export default {
 			axios.post('http://localhost:3000/api/course/delete', {
 				courseID: id,
 			});
-			// window.location.reload();
 			this.courses.splice(i, 1); // this replaces window.location.reload();
 		}},
 
