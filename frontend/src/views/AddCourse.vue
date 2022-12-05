@@ -72,7 +72,7 @@ export default {
 
 		async postCourse() {
 			await axios.post('http://localhost:3000/api/course/add', {
-				name: this.courseName, title: this.courseTitle,
+				name: this.courseName,  title: this.courseTitle,
 			});
 		},
 	},
