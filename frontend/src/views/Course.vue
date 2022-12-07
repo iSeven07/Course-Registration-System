@@ -22,9 +22,11 @@
 						<td>{{ course.name }}</td>
 						<td>{{ course.title }}</td>
 						<td>
-							<button class="mx-2 btn btn-primary" @click="viewCourse(course.name)">View</button>
-							<button class="mx-2 btn btn-secondary" @click="editCourse(course._id)">Edit</button>
-							<button class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
+							<button class="mx-2 btn btn-primary" :class="teacher" @click="viewCourse(course.name)">View</button>
+							<button class="mx-2 btn btn-secondary" :class="teacher" @click="editCourse(course._id)">Edit</button>
+							<button class="mx-2 btn btn-danger" :class="teacher" @click="deleteCourse(course._id, i)">Delete</button>
+							<!-- <button class="mx-2 btn btn-secondary" :class="student" @click="addCourse(course._id)">Edit</button>
+							<button class="mx-2 btn btn-danger" :class="student" @click="dropCourse(course._id, i)">Delete</button> -->
 						</td>
 					</tr>
 					<tr>
@@ -48,6 +50,13 @@ export default {
 	data() {
 		return {
 			courses: [],
+			currentUser: {},
+			teacher: {
+				active: false,
+			},
+			student: {
+				active: false,
+			},
 		};
 	},
 
@@ -56,6 +65,31 @@ export default {
 	},
 
 	methods: {
+
+		whoIsUser() {
+			let token = localStorage.getItem('token')
+
+			if (token) {
+				this.currentUser = axios.get().data
+
+				if (this.currentUser.isTeacher) {
+					this.teacher = true;
+				} else {
+					this.teacher = false;
+					this.student = true;
+				}
+			}
+
+		},
+
+		// addCourse() {
+			
+		// },
+
+		// dropCourse() {
+
+		// },
+
 		async deleteCourse(id, i) {
 			console.log(id);
 			if(confirm("Do you really want to delete " + this.courses[i].name + "? You won't be able to undo this operation. Press OK to confirm deletion.")){

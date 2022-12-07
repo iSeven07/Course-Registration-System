@@ -2,9 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const jwt = require('jwt-simple');
+
+// For encoding/decoding JWT
+const secret = 'supersecret';
+
 
 // Model Imports
 const Course = require('./models/course');
+const User = require('./models/user')
 
 const port = 3000;
 const uri =
@@ -68,8 +74,6 @@ app.patch('/api/course/edit', (req, res) => {
 		})
 })
 
-
-
 // Add Course to DB
 app.post('/api/course/add', function (req, res, next) {
 	 course = new Course({
@@ -94,4 +98,47 @@ app.post('/api/course/delete', function (req, res) {
 	});
 });
 
+
+// Auth User
+
+app.post('/api/user/auth', function(req, res) {
+
+	console.log('login requested...')
+
+	if (!req.body.username || !req.body.password) {
+		console.log('no user and/or password')
+		res.status(401).json({ error: "Missing username and/or password"});
+		return;
+ }
+
+ // Get user from the database
+ User.findOne({ userName: req.body.username }, function(err, user) {
+		if (err) {
+			 res.status(400).send(err);
+		}
+		else if (!user) {
+			 // Username not in the database
+			console.log('user not found')
+			res.status(401).send()
+			}
+			else {
+				// Check if password from database matches given password
+				if (user.password != req.body.password) {
+					console.log('user found with bad password')
+					console.log(req.body)
+					res.status(401).send()
+				}
+				else {
+					// Send back a token that contains the user's username
+					console.log('user and password correct')
+					console.log(req.body)
+					const token = jwt.encode({ username: user.username }, secret);
+					res.json({ token: token });
+			 }
+		}
+ });
+
+})
+
+// Listen
 app.listen(port, () => console.log('app running'));

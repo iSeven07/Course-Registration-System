@@ -21,7 +21,7 @@
             <router-link class="nav-link" to="/courses/add">Add Course</router-link>
           </li>
           <li class="nav-item">
-            <!-- <a href="/viewcourse" class="nav-link">View Course</a> -->
+            <a href="/login" class="nav-link">Login</a>
           </li>
         </ul>
       </div>
