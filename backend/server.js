@@ -3,6 +3,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt');
 
 // For encoding/decoding JWT
 const secret = 'supersecret';
@@ -98,10 +99,33 @@ app.post('/api/course/delete', function (req, res) {
 	});
 });
 
+// Register
+app.post('/api/signup', (req, res, next) => {
+	const newUser = new User({
+		name: req.body.name,
+		userName: req.body.userName,
+		password: bcrypt.hashSync(req.body.password, 10),
+		//courses: req.body.courses, // needs added to Register Page
+		//isTeacher: req.body.isTeacher,
+	})
+	newUser.save(err => {
+		if (err) {
+			return res.status(400).json({
+				title: 'error',
+				error: 'username is use'
+			})
+		}
+		console.log(`${req.body.userName} created successfully`)
+		return res.status(200).json({
+			title: 'signup success'
+		})
+	})
+})
 
-// Auth User
 
-app.post('/api/user/auth', function(req, res) {
+// Login
+
+app.post('/api/login', function(req, res) {
 
 	console.log('login requested...')
 
@@ -119,14 +143,22 @@ app.post('/api/user/auth', function(req, res) {
 		else if (!user) {
 			 // Username not in the database
 			console.log('user not found')
-			res.status(401).send()
+			//res.status(401).send()
+			return res.status(401).json({
+				title: 'error',
+				error: 'user not found'
+			})
 			}
 			else {
 				// Check if password from database matches given password
 				if (user.password != req.body.password) {
 					console.log('user found with bad password')
 					console.log(req.body)
-					res.status(401).send()
+					// res.status(401).send()
+					return res.status(401).json({
+						title: 'login failed',
+						error: 'invalid credentials'
+					})
 				}
 				else {
 					// Send back a token that contains the user's username

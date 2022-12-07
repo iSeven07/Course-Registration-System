@@ -18,7 +18,7 @@ const userSchema = new Schema({
   courses: [[String]],
   isTeacher: {
     type: Boolean,
-    required: true,
+    //required: true,
   },
 });
 

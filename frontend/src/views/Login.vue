@@ -15,7 +15,7 @@
 
 				<button class="btn btn-primary" @click.prevent="login()">Confirm</button>
 			</form>
-			<div id="errorMsg"></div>
+			<div id="errorMsg">{{ error }}</div>
 		</div>
 	</div>
 </template>
@@ -27,7 +27,8 @@ export default {
   data() {
     return {
       userName: "",
-      password: ""
+      password: "",
+      error: ''
     };
   },
   methods: {
@@ -35,7 +36,7 @@ export default {
       this.userName = this.$refs.username.value;
 			this.password = this.$refs.password.value;
       console.log(this.userName + " " + this.password);
-      await axios.post('http://localhost:3000/api/user/auth', {
+      await axios.post('http://localhost:3000/api/login', {
 				username: this.userName ,
         password: this.password,
 			}).then(async (response) => {
@@ -51,7 +52,8 @@ export default {
         }
       }).catch((error => {
         console.log(`Error: ${error}`)
-        document.getElementById('errorMsg').innerHTML = `<strong>ERROR 401</strong><br/>Username and/or Password is Invalid.`
+        this.error = error.response.data.error;
+        //document.getElementById('errorMsg').innerHTML = `<strong>ERROR 401</strong><br/>Username and/or Password is Invalid.`
       }));
     } 
   }

@@ -6,6 +6,7 @@ import ViewCourse from '../views/ViewCourse.vue';
 import EditCourse from '../views/EditCourse.vue';
 import NotFound from '../views/404.vue';
 import Login from '../views/Login.vue';
+import Signup from '../views/Register.vue';
 
 const routes = [
 	{
@@ -40,6 +41,11 @@ const routes = [
 		path: '/login',
 		name: 'login',
 		component: Login,
+	},
+	{
+		path: '/signup',
+		name: 'signup',
+		component: Signup,
 	},
 	{
 		path: '/:pathMatch(.*)',
