@@ -105,7 +105,7 @@ app.post('/api/signup', (req, res, next) => {
 		userName: req.body.userName,
 		password: bcrypt.hashSync(req.body.password, 10),
 		//courses: req.body.courses, // needs added to Register Page
-		//isTeacher: req.body.isTeacher,
+		isTeacher: req.body.isTeacher,
 	})
 	newUser.save(err => {
 		if (err) {
@@ -120,7 +120,6 @@ app.post('/api/signup', (req, res, next) => {
 		})
 	})
 })
-
 
 // Login
 

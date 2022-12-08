@@ -1,7 +1,7 @@
 <template>
 	<div class="pt-5">
 		<div class="h1 text-center">Login</div>
-		<div class="pt-2" style="margin-left: auto; margin-right: auto; width:60%">
+		<div class="pt-2" style="margin-left: auto; margin-right: auto; max-width:300px">
 			<form>
 				<div class="form-group">
 					<label for="nameInput">User:</label>
@@ -12,8 +12,10 @@
 					<label for="titleInput">Password:</label>
 					<input id="titleInput" type="text" class="form-control" ref="password" />
 				</div>
-
-				<button class="btn btn-primary" @click.prevent="login()">Confirm</button>
+        <div class="text-center">
+				<button class="btn btn-primary mx-3" @click.prevent="login()">Confirm</button>
+        <button class="btn btn-secondary" @click.prevent="this.$router.push('/signup')">Register</button>
+        </div>
 			</form>
 			<div id="errorMsg">{{ error }}</div>
 		</div>
