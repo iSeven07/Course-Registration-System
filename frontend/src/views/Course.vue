@@ -25,13 +25,13 @@
 						<td>{{ course.credits }}</td>
 						<td>
 							<button class="mx-2 btn btn-primary" :class="teacher" @click="viewCourse(course.name)">View</button>
-							<button class="mx-2 btn btn-secondary" :class="teacher" @click="editCourse(course._id)">Edit</button>
-							<button class="mx-2 btn btn-danger" :class="teacher" @click="deleteCourse(course._id, i)">Delete</button>
+							<button v-if="teacher.active" class="mx-2 btn btn-secondary" :class="teacher" @click="editCourse(course._id)">Edit</button>
+							<button v-if="teacher.active" class="mx-2 btn btn-danger" :class="teacher" @click="deleteCourse(course._id, i)">Delete</button>
 							<!-- <button class="mx-2 btn btn-secondary" :class="student" @click="addCourse(course._id)">Edit</button>
 							<button class="mx-2 btn btn-danger" :class="student" @click="dropCourse(course._id, i)">Delete</button> -->
 						</td>
 					</tr>
-					<tr>
+					<tr v-if="teacher.active">
 						<td colspan="4"><router-link class="btn btn-primary" to="/courses/add">Add Course</router-link></td>
 					</tr>
 				</tbody>
@@ -56,9 +56,9 @@ export default {
 			teacher: {
 				active: false,
 			},
-			student: {
-				active: false,
-			},
+			// student: {
+			// 	active: false,
+			// },
 		};
 	},
 
@@ -68,21 +68,21 @@ export default {
 
 	methods: {
 
-		whoIsUser() {
-			let token = localStorage.getItem('token')
+		// whoIsUser() {
+		// 	let token = localStorage.getItem('token')
 
-			if (token) {
-				this.currentUser = axios.get().data
+		// 	if (token) {
+		// 		this.currentUser = axios.get().data
 
-				if (this.currentUser.isTeacher) {
-					this.teacher = true;
-				} else {
-					this.teacher = false;
-					this.student = true;
-				}
-			}
+		// 		if (this.currentUser.isTeacher) {
+		// 			this.teacher = true;
+		// 		} else {
+		// 			this.teacher = false;
+		// 			this.student = true;
+		// 		}
+		// 	}
 
-		},
+		// },
 
 		// addCourse() {
 			
@@ -110,5 +110,19 @@ export default {
 			this.$router.push({ name: 'edit-course', params: { courseID: id } });
 		},
 	},
+
+  async mounted() {
+    
+    // Check Logged In Status
+    axios.get('http://localhost:3000/api/user', { headers: { token: localStorage.getItem('token')}})
+    .then(res => {
+      console.log(res);
+      //this.name = res.data.user.name;
+			this.teacher.active = res.data.user.isTeacher
+      console.log(`${res.data.user.name} has been authenticated on Courses`)
+    })
+
+  }
+
 };
 </script>
