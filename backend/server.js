@@ -149,9 +149,10 @@ app.post('/api/login', function(req, res) {
 			}
 			else {
 				// Check if password from database matches given password
-				if (user.password != req.body.password) {
+				//if (user.password != req.body.password) {
+					if (!bcrypt.compareSync(req.body.password, user.password)) {
 					console.log('user found with bad password')
-					console.log(req.body)
+					//console.log(req.body)
 					// res.status(401).send()
 					return res.status(401).json({
 						title: 'login failed',
