@@ -14,6 +14,7 @@
 					<tr>
 						<th scope="col">Course</th>
 						<th scope="col">Title</th>
+						<th scope="col">Credits</th>
 						<th scope="col"></th>
 					</tr>
 				</thead>
@@ -21,6 +22,7 @@
 					<tr v-for="(course, i) in courses" :key="i">
 						<td>{{ course.name }}</td>
 						<td>{{ course.title }}</td>
+						<td>{{ course.credits }}</td>
 						<td>
 							<button class="mx-2 btn btn-primary" :class="teacher" @click="viewCourse(course.name)">View</button>
 							<button class="mx-2 btn btn-secondary" :class="teacher" @click="editCourse(course._id)">Edit</button>
@@ -30,7 +32,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3"><router-link class="btn btn-primary" to="/courses/add">Add Course</router-link></td>
+						<td colspan="4"><router-link class="btn btn-primary" to="/courses/add">Add Course</router-link></td>
 					</tr>
 				</tbody>
 			</table>

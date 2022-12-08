@@ -53,8 +53,6 @@ app.get('/api/courses', (req, res) => {
 
 // Get a single Course
 app.post('/api/course', (req, res) => {
-	console.log('req.body ' + req.body.data);
-	console.log('courseName ' + req.body.courseName);
 	Course.findById(req.body.courseID)
 		.then((result) => {
 			res.send(result);
@@ -65,12 +63,12 @@ app.post('/api/course', (req, res) => {
 });
 
 // Edit Course in DB
-
 app.patch('/api/course/edit', (req, res) => {
 	Course.findById(req.body.courseID)
 		.then((resp) => {
 			resp.name = req.body.courseName
 			resp.title = req.body.courseTitle
+			resp.credits = req.body.courseCredits
 			resp.save()
 		})
 })
@@ -80,6 +78,7 @@ app.post('/api/course/add', function (req, res, next) {
 	 course = new Course({
 		name: req.body.name,
 		title: req.body.title,
+		credits: req.body.credits,
 	});
   console.log(course);
 	course.save(function (err, course) {
