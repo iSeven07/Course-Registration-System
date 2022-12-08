@@ -10,7 +10,9 @@
       </div> -->
   
     <div class="jumbotron">
-      <h1 class="display-4">Hello, Teachers and Students!</h1>
+      <!-- Having to use span and innerHTML because {{ name }} is not working... -->
+      <h1 class="display-4">Hello, <span id="nameID"></span>! {{ name }}</h1>
+      <h1 class="display-4"></h1>
       <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id tempora at suscipit quas rerum rem voluptatum a.</p>
       <hr class="my-4">
       <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod illum ab placeat eum, rerum expedita impedit voluptates quaerat, voluptate culpa, excepturi perspiciatis quia numquam repellendus dolorum deserunt eaque eligendi. Deleniti!</p>
@@ -23,7 +25,27 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
+
+  date() {
+    return {
+      name: 'Teachers and Students',
+    }
+  },
+
+  async mounted() {
+    
+    // Check Logged In Status
+    axios.get('http://localhost:3000/api/user', { headers: { token: localStorage.getItem('token')}})
+    .then(res => {
+      console.log(res);
+      this.name = res.data.user.name;
+      console.log(`${this.name} has been authenticated on Home`)
+      document.getElementById('nameID').innerHTML = this.name;
+    })
+
+  }
 
 }
 </script>

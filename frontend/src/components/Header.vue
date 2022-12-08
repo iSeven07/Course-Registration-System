@@ -20,11 +20,47 @@
             <!-- <a href="/courses/add" class="nav-link">Add Course</a> -->
             <router-link class="nav-link" to="/courses/add">Add Course</router-link>
           </li>
-          <li class="nav-item">
+          <!-- -->
+          <li v-if="!isAuthenticated" class="nav-item">
             <a href="/login" class="nav-link">Login</a>
+          </li>
+          <li v-else class="nav-item">
+            <a href="#" @click="logout()" class="nav-link">Logout</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+
+    };
+  },
+
+  computed: {
+
+    isAuthenticated() {
+      if (localStorage.getItem('token')) {
+        return true
+      }
+      else {
+        return false
+      }
+    }
+
+    },
+
+    methods: {
+      logout() {
+        localStorage.removeItem('token');
+        //this.$router.push({ name: 'home' });
+        this.$router.go()
+      }
+    }
+}
+
+</script>

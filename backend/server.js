@@ -163,13 +163,39 @@ app.post('/api/login', function(req, res) {
 					// Send back a token that contains the user's username
 					console.log('user and password correct')
 					console.log(req.body)
-					const token = jwt.encode({ username: user.username }, secret);
-					res.json({ token: token });
+					const token = jwt.encode({ userId: user._id }, secret);
+					return res.status(200).json({ title: 'login success', token: token });
 			 }
 		}
  });
 
 })
+
+// Authorization
+app.get('/api/user', (req, res, next) => {
+	let token = req.headers.token; //token
+	try {
+		const decoded = jwt.decode(token, secret);
+
+		console.log(decoded);
+		
+		User.findOne({_id: decoded.userId }, (err, user) => {
+			if (err) return console.log(err)
+			return res.status(200).json({
+				title: 'authorized',
+				user: {
+					name: user.name,
+					username: user.userName,
+					isTeacher: user.isTeacher
+				}
+			})
+		})
+
+	}
+	catch (ex) {
+		res.status(401).json({ title: 'error', 'error': "Invalid JWT"})
+	}
+});
 
 // Listen
 app.listen(port, () => console.log('app running'));
