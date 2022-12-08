@@ -24,14 +24,14 @@
 						<td>{{ course.title }}</td>
 						<td>{{ course.credits }}</td>
 						<td>
-							<button class="mx-2 btn btn-primary" :class="teacher" @click="viewCourse(course.name)">View</button>
-							<button v-if="teacher.active" class="mx-2 btn btn-secondary" :class="teacher" @click="editCourse(course._id)">Edit</button>
-							<button v-if="teacher.active" class="mx-2 btn btn-danger" :class="teacher" @click="deleteCourse(course._id, i)">Delete</button>
+							<button class="mx-2 btn btn-primary" @click="viewCourse(course.name)">View</button>
+							<button v-if="this.$store.state.isTeacher" class="mx-2 btn btn-secondary" @click="editCourse(course._id)">Edit</button>
+							<button v-if="this.$store.state.isTeacher" class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
 							<!-- <button class="mx-2 btn btn-secondary" :class="student" @click="addCourse(course._id)">Edit</button>
 							<button class="mx-2 btn btn-danger" :class="student" @click="dropCourse(course._id, i)">Delete</button> -->
 						</td>
 					</tr>
-					<tr v-if="teacher.active">
+					<tr v-if="this.$store.state.isTeacher">
 						<td colspan="4"><router-link class="btn btn-primary" to="/courses/add">Add Course</router-link></td>
 					</tr>
 				</tbody>
@@ -52,10 +52,10 @@ export default {
 	data() {
 		return {
 			courses: [],
-			currentUser: {},
-			teacher: {
-				active: false,
-			},
+			// currentUser: {},
+			// teacher: {
+			// 	active: false,
+			// },
 			// student: {
 			// 	active: false,
 			// },
@@ -111,18 +111,18 @@ export default {
 		},
 	},
 
-  async mounted() {
+  // async mounted() {
     
-    // Check Logged In Status
-    axios.get('http://localhost:3000/api/user', { headers: { token: localStorage.getItem('token')}})
-    .then(res => {
-      console.log(res);
-      //this.name = res.data.user.name;
-			this.teacher.active = res.data.user.isTeacher
-      console.log(`${res.data.user.name} has been authenticated on Courses`)
-    })
+  //   // Check Logged In Status
+  //   axios.get('http://localhost:3000/api/user', { headers: { token: localStorage.getItem('token')}})
+  //   .then(res => {
+  //     console.log(res);
+  //     //this.name = res.data.user.name;
+	// 		this.teacher.active = res.data.user.isTeacher
+  //     console.log(`${res.data.user.name} has been authenticated on Courses`)
+  //   })
 
-  }
+  // }
 
 };
 </script>

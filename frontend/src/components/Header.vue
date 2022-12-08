@@ -16,17 +16,19 @@
             <!-- <a href="/courses" class="nav-link">Courses</a> -->
             <router-link class="nav-link" to="/courses">Courses</router-link>
           </li>
-          <li class="nav-item">
-            <!-- <a href="/courses/add" class="nav-link">Add Course</a> -->
-            <router-link class="nav-link" to="/courses/add">Add Course</router-link>
-          </li>
           <!-- -->
-          <li v-if="!isAuthenticated" class="nav-item">
-            <a href="/login" class="nav-link">Login</a>
+          <li v-if="!this.$store.state.isAuth" class="nav-item">
+            <!-- <a href="/login" class="nav-link">Login</a> -->
+            <router-link class="nav-link" to="/login">Login</router-link>
           </li>
-          <li v-else class="nav-item">
-            <a href="#" @click="logout()" class="nav-link">Logout</a>
-          </li>
+          <li v-else class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:yellowgreen">
+            {{ $store.state.name }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><a href="#" @click="logout()" class="dropdown-item">Logout</a></li>
+          </ul>
+        </li>
         </ul>
       </div>
     </div>
@@ -57,8 +59,13 @@ export default {
     methods: {
       logout() {
         localStorage.removeItem('token');
-        //this.$router.push({ name: 'home' });
-        this.$router.go()
+        this.$store.state.name = 'Teachers and Students';
+        this.$store.state.isAuth = false;
+
+        let currentPage = this.$route.name;
+        //this.$router.go(this.$router.currentRoute)
+        this.$router.push({ path: '/' });
+        //this.$router.go()
       }
     }
 }

@@ -193,7 +193,7 @@ app.get('/api/user', (req, res, next) => {
 
 	}
 	catch (ex) {
-		res.status(401).json({ title: 'error', 'error': "Invalid JWT"})
+		res.status(401).json({ title: 'error', 'error': "Not logged in."})
 	}
 });
 
