@@ -2,14 +2,9 @@
 	<div class="p-5 text-center">
 		<div class="h1">Available Courses</div>
 		<div class="pt-5">
-			<!-- <h2 v-for="(course, i) in courses" :key="i">
-				{{ course.name }}: {{ course.title }}
-				<button @click="deleteCourse(course._id, i)">Delete</button>
-				<button @click="viewCourse(course.name)">View</button>
-				<button @click="editCourse(course._id)">Edit</button>
-			</h2> -->
 
-			<table class="table">
+
+			<table class="table" style="max-width: 800px; margin:auto">
 				<thead class="table-dark">
 					<tr>
 						<th scope="col">Course</th>
@@ -20,15 +15,15 @@
 				</thead>
 				<tbody>
 					<tr v-for="(course, i) in courses" :key="i">
-						<td>{{ course.name }}</td>
-						<td>{{ course.title }}</td>
-						<td>{{ course.credits }}</td>
-						<td>
-							<button class="mx-2 btn btn-primary" @click="viewCourse(course.name)">View</button>
-							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) == -1)" class="mx-2 btn btn-success" @click="addCourse(course.name)">Add</button>
-							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="mx-2 btn btn-danger" @click="dropCourse(course.name)">Drop</button>
-							<button v-if="this.$store.state.user.isTeacher" class="mx-2 btn btn-secondary" @click="editCourse(course._id)">Edit</button>
-							<button v-if="(this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
+						<td class="align-middle">{{ course.name }}</td>
+						<td class="align-middle">{{ course.title }}</td>
+						<td class="align-middle">{{ course.credits }}</td>
+						<td class="text-start">
+							<button class="m-1 btn btn-primary btn-sm" @click="viewCourse(course.name)">View</button>
+							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) == -1)" class="m-1 btn btn-success btn-sm" @click="addCourse(course.name)">Add</button>
+							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="m-1 btn btn-danger btn-sm" @click="dropCourse(course.name)">Drop</button>
+							<button v-if="this.$store.state.user.isTeacher" class="m-1 btn btn-secondary btn-sm" @click="editCourse(course._id)">Edit</button>
+							<button v-if="(this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="m-1 btn btn-danger btn-sm" @click="deleteCourse(course._id, i)">Delete</button>
 							<!-- <button class="mx-2 btn btn-secondary" :class="student" @click="addCourse(course._id)">Edit</button>
 							<button class="mx-2 btn btn-danger" :class="student" @click="dropCourse(course._id, i)">Delete</button> -->
 						</td>
@@ -63,6 +58,7 @@ export default {
 			// },
 		};
 	},
+
 
 	async created() {
 		this.courses = (await axios.get('http://localhost:3000/api/courses')).data;

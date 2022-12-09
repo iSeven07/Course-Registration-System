@@ -8,7 +8,8 @@ export default createStore({
       isAuth: false,
       isTeacher: false,
       courses: [],
-    }
+    },
+    courses: []
   },
   mutations: {
     addCourse(state, course) {
@@ -28,6 +29,13 @@ export default createStore({
         //console.log(course);
         state.user.courses.push(course);
       }
+    },
+
+    setAllCourses(state, courses) {
+      // state.courses = courses.data
+      courses.forEach(function(row) {
+        state.courses.push(row)
+      })
     }
   },
 
@@ -54,6 +62,12 @@ export default createStore({
       console.log(course.courseName + ' was removed from user courses')
     },
 
+    async updateCourses({commit}) { 
+      let coursedata = (await axios.get('http://localhost:3000/api/courses')).data
+
+      commit('setAllCourses', coursedata)
+    },
+
     async auth({commit}, credentials) {
       axios.get('http://localhost:3000/api/user', { headers: { token: credentials}})
       .then(res => {
@@ -64,14 +78,6 @@ export default createStore({
           isTeacher: res.data.user.isTeacher,
           courses: res.data.user.courses
         }
-        // state.user.name = res.data.user.name;
-        // state.user.isAuth = true;
-        // state.user.isTeacher = res.data.user.isTeacher;
-        //this.$store.state.user.courses = res.data.user.courses;
-        // for (let [course] of res.data.user.courses) {
-        //   console.log(course);
-          // state.user.courses.push(course);
-        // }
         commit('setUserState', user)
         console.log(`${user.name} has been authenticated and information loaded.`)
       })

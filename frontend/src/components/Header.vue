@@ -1,5 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark pe-3">
+
     <!-- <a class="navbar-brand ps-5" href="/">Faux School</a> -->
     <router-link class="navbar-brand ps-5" to="/">Faux School</router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
@@ -31,7 +32,7 @@
           </ul>
         </li>
         </ul>
-      </div>
+    </div>
     </div>
   </nav>
 </template>
@@ -77,6 +78,7 @@ export default {
     
     // Check Logged In Status
     this.$store.dispatch('auth', localStorage.getItem('token'))
+    this.$store.dispatch('updateCourses')
 
   }
 }

@@ -10,7 +10,7 @@
 
 				<div class="form-group my-2">
 					<label for="titleInput">Password:</label>
-					<input id="titleInput" type="text" class="form-control" ref="password" />
+					<input id="titleInput" type="password" class="form-control" ref="password" />
 				</div>
         <div class="text-center">
 				<button class="btn btn-primary mx-3" @click.prevent="login()">Confirm</button>
