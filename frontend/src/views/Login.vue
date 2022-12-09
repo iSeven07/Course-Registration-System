@@ -50,6 +50,7 @@ export default {
           console.log(tokenResponse);
           localStorage.setItem("token", tokenResponse);
 
+          this.$store.dispatch('auth', tokenResponse)
 					this.$router.push({ name: 'home'});
         }
       }).catch((error => {

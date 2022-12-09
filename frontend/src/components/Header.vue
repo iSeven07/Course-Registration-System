@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -69,7 +70,14 @@ export default {
         this.$router.push({ path: '/' });
         //this.$router.go()
       }
-    }
+    },
+
+    async mounted() {
+    
+    // Check Logged In Status
+    this.$store.dispatch('auth', localStorage.getItem('token'))
+
+  }
 }
 
 </script>
