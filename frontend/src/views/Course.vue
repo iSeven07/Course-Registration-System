@@ -112,26 +112,34 @@ export default {
 			this.$router.push({ name: 'edit-course', params: { courseID: id } });
 		},
 
+		// Student Actions
 		addCourse(name) {
-
-			if (this.$store.state.user.courses.indexOf(name) == -1) {
-				this.$store.state.user.courses.push(name);
-				console.log(name + " was added to user courses.")
-				console.log(this.$store.state.user.courses);
-			} else {
-				console.log(name + ' already added to user courses');
-			}
+			this.$store.dispatch('pushCourse', {
+				course: name,
+				token: localStorage.getItem('token')
+			});
+			// if (this.$store.state.user.courses.indexOf(name) == -1) {
+			// 	this.$store.state.user.courses.push(name);
+			// 	console.log(name + " was added to user courses.")
+			// 	console.log(this.$store.state.user.courses);
+			// } else {
+			// 	console.log(name + ' already added to user courses');
+			// }
 		},
 
 		dropCourse(name) {
-			if (this.$store.state.user.courses.indexOf(name) != -1) {
-				let courseIndex = this.$store.state.user.courses.indexOf(name)
-				this.$store.state.user.courses.splice(courseIndex, 1);
-				console.log(name + " was removed to user courses.")
-				console.log(this.$store.state.user.courses);
-			} else {
-				console.log(name + ' does not exist in user courses.');
-			}
+			this.$store.dispatch('popCourse', {
+				course: name,
+				token: localStorage.getItem('token')
+			});
+			// if (this.$store.state.user.courses.indexOf(name) != -1) {
+			// 	let courseIndex = this.$store.state.user.courses.indexOf(name)
+			// 	this.$store.state.user.courses.splice(courseIndex, 1);
+			// 	console.log(name + " was removed to user courses.")
+			// 	console.log(this.$store.state.user.courses);
+			// } else {
+			// 	console.log(name + ' does not exist in user courses.');
+			// }
 		},		
 		
 	},

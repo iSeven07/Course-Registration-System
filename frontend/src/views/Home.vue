@@ -43,6 +43,11 @@ export default {
       this.$store.state.user.name = res.data.user.name;
       this.$store.state.user.isAuth = true;
       this.$store.state.user.isTeacher = res.data.user.isTeacher;
+      //this.$store.state.user.courses = res.data.user.courses;
+      for (let [course] of res.data.user.courses) {
+        console.log(course);
+        this.$store.state.user.courses.push(course);
+      }
       console.log(`${this.$store.state.user.name} has been authenticated on Home`)
     })
     .catch((error) => {

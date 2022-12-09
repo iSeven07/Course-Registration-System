@@ -174,10 +174,11 @@ app.post('/api/login', function(req, res) {
 // Authorization
 app.get('/api/user', (req, res, next) => {
 	let token = req.headers.token; //token
+	//console.log(token)
 	try {
 		const decoded = jwt.decode(token, secret);
 
-		console.log(decoded);
+		//console.log(decoded);
 		
 		User.findOne({_id: decoded.userId }, (err, user) => {
 			if (err) return console.log(err)
@@ -186,7 +187,8 @@ app.get('/api/user', (req, res, next) => {
 				user: {
 					name: user.name,
 					username: user.userName,
-					isTeacher: user.isTeacher
+					isTeacher: user.isTeacher,
+					courses: user.courses
 				}
 			})
 		})
@@ -195,6 +197,62 @@ app.get('/api/user', (req, res, next) => {
 	catch (ex) {
 		res.status(401).json({ title: 'error', 'error': "Not logged in."})
 	}
+});
+
+// Student - Add Course
+app.patch('/api/user/course/add', (req, res, next) => {
+	let courseName = req.body.course;
+	let token = req.body.token;
+	console.log("ADD: " + courseName + " " + token)
+
+	try {
+		const decoded = jwt.decode(token, secret);
+		console.log(decoded.userId);
+		//console.log(decoded);
+		
+		User.updateOne(
+			{ _id: decoded.userId },
+			{ $addToSet: { courses: courseName }},
+			function(err) {
+				if (err) {
+					console.log('Updated user failed.')
+				}
+			}
+		)
+	}
+	catch (ex) {
+		res.status(401).json({ title: 'error', 'error': "Not logged in."})
+	}
+	res.status(200).json({ courseName: courseName })
+});
+
+// Student - Drop Course
+app.post('/api/user/course/drop', (req, res, next) => {
+	let courseName = req.body.course;
+	let token = req.body.token;
+	console.log("DROP: " + courseName + " " + token)
+
+
+	try {
+		const decoded = jwt.decode(token, secret);
+		console.log(decoded.userId);
+		//console.log(decoded);
+		
+		User.updateOne(
+			{ _id: decoded.userId },
+			{ $pull: { courses: courseName }},
+			function(err) {
+				if (err) {
+					console.log('Updated user failed.')
+				}
+			}
+		)
+	}
+	catch (ex) {
+		res.status(401).json({ title: 'error', 'error': "Not logged in."})
+	}
+
+	res.status(200).json({ courseName: courseName })
 });
 
 // Listen
