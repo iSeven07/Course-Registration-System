@@ -28,7 +28,7 @@
 							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) == -1)" class="mx-2 btn btn-success" @click="addCourse(course.name)">Add</button>
 							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="mx-2 btn btn-danger" @click="dropCourse(course.name)">Drop</button>
 							<button v-if="this.$store.state.user.isTeacher" class="mx-2 btn btn-secondary" @click="editCourse(course._id)">Edit</button>
-							<button v-if="this.$store.state.user.isTeacher" class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
+							<button v-if="(this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
 							<!-- <button class="mx-2 btn btn-secondary" :class="student" @click="addCourse(course._id)">Edit</button>
 							<button class="mx-2 btn btn-danger" :class="student" @click="dropCourse(course._id, i)">Delete</button> -->
 						</td>
@@ -99,6 +99,11 @@ export default {
 			if(confirm("Do you really want to delete " + this.courses[i].name + "? You won't be able to undo this operation. Press OK to confirm deletion.")){
 			axios.post('http://localhost:3000/api/course/delete', {
 				courseID: id,
+			});
+
+			this.$store.dispatch('popCourse', {
+				course: this.courses[i].name,
+				token: localStorage.getItem('token')
 			});
 			this.courses.splice(i, 1); // this replaces window.location.reload();
 		}},

@@ -85,6 +85,12 @@ export default {
 				title: this.courseTitle,
 				credits: this.courseCredits
 			});
+
+			this.$store.dispatch('pushCourse', {
+				course: this.courseName,
+				token: localStorage.getItem('token')
+			});
+
 		},
 	},
 };
