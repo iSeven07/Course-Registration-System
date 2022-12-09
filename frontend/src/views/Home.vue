@@ -11,7 +11,7 @@
   
     <div class="jumbotron">
       <!-- Having to use span and innerHTML because {{ name }} is not working... -->
-      <h1 class="display-4">Hello, {{ $store.state.name }}</h1>
+      <h1 class="display-4">Hello, {{ $store.state.user.name }}</h1>
       <h1 class="display-4"></h1>
       <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id tempora at suscipit quas rerum rem voluptatum a.</p>
       <hr class="my-4">
@@ -40,10 +40,10 @@ export default {
     axios.get('http://localhost:3000/api/user', { headers: { token: localStorage.getItem('token')}})
     .then(res => {
       console.log(res);
-      this.$store.state.name = res.data.user.name;
-      this.$store.state.isAuth = true;
-      this.$store.state.isTeacher = res.data.user.isTeacher;
-      console.log(`${this.$store.state.name} has been authenticated on Home`)
+      this.$store.state.user.name = res.data.user.name;
+      this.$store.state.user.isAuth = true;
+      this.$store.state.user.isTeacher = res.data.user.isTeacher;
+      console.log(`${this.$store.state.user.name} has been authenticated on Home`)
     })
     .catch((error) => {
       if (error.response) {

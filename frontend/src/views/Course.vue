@@ -25,13 +25,15 @@
 						<td>{{ course.credits }}</td>
 						<td>
 							<button class="mx-2 btn btn-primary" @click="viewCourse(course.name)">View</button>
-							<button v-if="this.$store.state.isTeacher" class="mx-2 btn btn-secondary" @click="editCourse(course._id)">Edit</button>
-							<button v-if="this.$store.state.isTeacher" class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
+							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) == -1)" class="mx-2 btn btn-success" @click="addCourse(course.name)">Add</button>
+							<button v-if="(this.$store.state.user.isAuth && !this.$store.state.user.isTeacher && this.$store.state.user.courses.indexOf(course.name) != -1)" class="mx-2 btn btn-danger" @click="dropCourse(course.name)">Drop</button>
+							<button v-if="this.$store.state.user.isTeacher" class="mx-2 btn btn-secondary" @click="editCourse(course._id)">Edit</button>
+							<button v-if="this.$store.state.user.isTeacher" class="mx-2 btn btn-danger" @click="deleteCourse(course._id, i)">Delete</button>
 							<!-- <button class="mx-2 btn btn-secondary" :class="student" @click="addCourse(course._id)">Edit</button>
 							<button class="mx-2 btn btn-danger" :class="student" @click="dropCourse(course._id, i)">Delete</button> -->
 						</td>
 					</tr>
-					<tr v-if="this.$store.state.isTeacher">
+					<tr v-if="this.$store.state.user.isTeacher">
 						<td colspan="4"><router-link class="btn btn-primary" to="/courses/add">Add Course</router-link></td>
 					</tr>
 				</tbody>
@@ -109,6 +111,29 @@ export default {
 		editCourse(id) {
 			this.$router.push({ name: 'edit-course', params: { courseID: id } });
 		},
+
+		addCourse(name) {
+
+			if (this.$store.state.user.courses.indexOf(name) == -1) {
+				this.$store.state.user.courses.push(name);
+				console.log(name + " was added to user courses.")
+				console.log(this.$store.state.user.courses);
+			} else {
+				console.log(name + ' already added to user courses');
+			}
+		},
+
+		dropCourse(name) {
+			if (this.$store.state.user.courses.indexOf(name) != -1) {
+				let courseIndex = this.$store.state.user.courses.indexOf(name)
+				this.$store.state.user.courses.splice(courseIndex, 1);
+				console.log(name + " was removed to user courses.")
+				console.log(this.$store.state.user.courses);
+			} else {
+				console.log(name + ' does not exist in user courses.');
+			}
+		},		
+		
 	},
 
   // async mounted() {
