@@ -26,6 +26,7 @@
             {{ $store.state.user.name }}
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><router-link class="dropdown-item" to="/user/courses">My Courses</router-link></li>
             <li><a href="#" @click="logout()" class="dropdown-item">Logout</a></li>
           </ul>
         </li>
